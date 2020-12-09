@@ -1,7 +1,0 @@
-site:
-  title: Antora Demo Site
-  version: 1.0
-nav: 
-  - modules/ROOT/nav.adoc
-
-
