@@ -1,15 +1,7 @@
 site:
   title: Antora Demo Site
-  # the 404 page and sitemap files only get generated when the url property is set
-  start_page: modules/ROOT/overview.adoc
   version: 1.0
 nav: 
-  - modules/ROOT/overview.adoc
-  - modules/ROOT/user_information.adoc
-  - modules/ROOT/run_jenkins_pipeline.adoc
-  - modules/ROOT/run_tekton_pipeline.adoc
-  - modules/ROOT/test_tekton_tasks.adoc
-  - modules/ROOTrun_jenkins_pipeline.adoc
-  - modules/ROOT/add_webhook.adoc
-  - modules/ROOT/create_tekton_pipeline.adoc
+  - modules/ROOT/nav.adoc
+
 
