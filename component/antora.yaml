@@ -1,7 +1,7 @@
 site:
   title: Antora Demo Site
   # the 404 page and sitemap files only get generated when the url property is set
-  start_page: overview:overview.adoc
+  start_page: modules/ROOT/overview.adoc
   version: 1.0
 nav: 
   - modules/ROOT/overview.adoc
