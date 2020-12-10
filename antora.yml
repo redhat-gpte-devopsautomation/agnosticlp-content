@@ -1,6 +1,6 @@
-name: component-a
-title: Component A
-version: 1.5.7
+name: agnosticlp-content
+title: Agnosticlp Content
+version: 1.0
 start_page: ROOT:overview.adoc
 nav:
 - modules/ROOT/nav.adoc
