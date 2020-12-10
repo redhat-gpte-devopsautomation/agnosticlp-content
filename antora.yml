@@ -1,6 +1,6 @@
 name: agnosticlp-content
 title: Agnosticlp Content
 version: 1.0
-start_page: ROOT:overview.adoc
+start_page: ROOT:index.adoc
 nav:
 - modules/ROOT/nav.adoc
