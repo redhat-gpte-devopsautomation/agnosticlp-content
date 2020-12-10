@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Untitled :: AgnosticLP Content</title>
+    <meta name="generator" content="Antora 2.2.0">
+    <link rel="stylesheet" href="../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../..">AgnosticLP Content</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Products</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Product A</a>
+            <a class="navbar-item" href="#">Product B</a>
+            <a class="navbar-item" href="#">Product C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Services</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Service A</a>
+            <a class="navbar-item" href="#">Service B</a>
+            <a class="navbar-item" href="#">Service C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Resources</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Resource A</a>
+            <a class="navbar-item" href="#">Resource B</a>
+            <a class="navbar-item" href="#">Resource C</a>
+          </div>
+        </div>
+        <div class="navbar-item">
+          <span class="control">
+            <a class="button is-primary" href="#">Download</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="agnosticlp-content" data-version="1">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="overview.html">Agnosticlp Content</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="#index.adoc">Lab Overview</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="user_information.html">Information about your environment</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="run_jenkins_pipeline.html">Execute Jenkins pipeline</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="create_tekton_pipeline.html">Create OpenShift pipeline</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="test_tekton_tasks.html">Test OpenShift pipeline tasks</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="run_tekton_pipeline.html">Run OpenShift pipeline</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="add_webhook.html">Add Webhook</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Agnosticlp Content</span>
+    <span class="version">1</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="overview.html">Agnosticlp Content</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="overview.html">1</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="overview.html">Agnosticlp Content</a></li>
+    <li><a href="test_tekton_tasks.html">Test OpenShift pipeline tasks</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<article class="doc">
+<div class="paragraph">
+<p>Before running our pipeline, you can test each single task by creating a <strong>TaskRun</strong>, another Tekton object that let us execute just one task rather then the entire pipeline. This is a really convenient way to test that your tasks are working properly before executing the entire pipeline.</p>
+</div>
+<div class="paragraph">
+<p>The <strong>TaskRun</strong> can be created from a YAML file, or with <code>tkn</code> CLI.</p>
+</div>
+<div class="sect1">
+<h2 id="_pipeline_service_account"><a class="anchor" href="#_pipeline_service_account"></a>Pipeline Service Account</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>OpenShift Pipelines provides a service account, <code>pipeline</code>, which gets created in each project by the pipeline operator. The service account is used to run pipelines and tasks. Therefore it needs to have the right permission to access private repositories and private registries as well as all projects that a task or pipeline needs to access.</p>
+</div>
+<div class="sect2">
+<h3 id="_enabling_access_to_a_private_source_code_repository"><a class="anchor" href="#_enabling_access_to_a_private_source_code_repository"></a>Enabling access to a private Source Code Repository</h3>
+<div class="paragraph">
+<p>As a project administrator, you can grant the right permission to the <code>pipeline</code> service account in order allow the <code>git-clone</code> ClusterTask access to the Gitea source code repository with your credentials.</p>
+</div>
+<div class="paragraph">
+<p>This is done by create a Kubernetes <code>secret</code> to attach to the <code>pipeline</code> service account.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create the secret <strong>git-secret</strong> of type <code>kubernetes.io/basic-auth</code> with your git credentials to your Gitea source code repository:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc create secret generic git-secret --from-literal=username=%ocp_username% --from-literal=password=%gitea_password% --type "kubernetes.io/basic-auth" -n pipeline-%guid%</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Annotate the secret with the URL of the git server we are using. This helps Tekton match the credentials to the correct git server:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc annotate secret git-secret "tekton.dev/git-0=%gitea_url%" -n pipeline-%guid%</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Finally attach that secret to <code>pipeline</code> service account that will be used by Tekton to execute our tasks. This will allow the <code>git-clone</code> ClusterTask to access your private repo on Gitea:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc secrets link pipeline git-secret -n pipeline-%guid%</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Verify that the secret has been linked:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc describe sa pipeline -n pipeline-%guid%</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code>Name:                pipeline
+Namespace:           pipeline-%guid%
+Labels:              &lt;none&gt;
+Annotations:         &lt;none&gt;
+Image pull secrets:  pipeline-dockercfg-k4z7m
+Mountable secrets:   pipeline-token-qhq9h
+                     pipeline-dockercfg-k4z7m
+                     <strong>git-secret</strong>
+Tokens:              pipeline-token-h5jq6
+                     pipeline-token-qhq9h
+Events:              &lt;none&gt;</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_enabling_pipeline_service_account_access_to_a_other_projects"><a class="anchor" href="#_enabling_pipeline_service_account_access_to_a_other_projects"></a>Enabling pipeline service account access to a other projects</h3>
+<div class="paragraph">
+<p>The Jenkins Pipeline was able to manipulate the <em>dev</em> and <em>prod</em> projects because the <code>jenkins</code> service account was already setup with the correct permissions for its <em>dev</em> and <em>prod</em> projects.</p>
+</div>
+<div class="paragraph">
+<p>You will do the same thing for the OpenShift pipeline, allowing the <code>pipeline</code> service account to manipulate the projects <strong>petclinic-%guid%-dev</strong> and <strong>petclinic-%guid%-prod</strong>.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Ensure that <strong>pipeline-%guid%</strong> project is the active project:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc project pipeline-%guid%</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Add the <code>edit</code> role in <strong>petclinic-%guid%-dev</strong> to all service accounts in project <strong>pipeline-%guid%</strong>:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc policy add-role-to-group edit system:serviceaccounts:pipeline-%guid% -n petclinic-%guid%-dev</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>And add the <code>edit</code> role for project <strong>petclinic-%guid%-prod</strong>:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc policy add-role-to-group edit system:serviceaccounts:pipeline-%guid% -n petclinic-%guid%-prod</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_test_tasks_individually"><a class="anchor" href="#_test_tasks_individually"></a>Test tasks individually</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>One of the nice features of OpenShift pipelines is that you can test each task in the pipeline individually. This happens by creating a <strong>TaskRun</strong> that references a task, specifies the required input and output parameters and optionally specifies a workspace to persist data.</p>
+</div>
+<div class="sect2">
+<h3 id="_test_git_clone_task"><a class="anchor" href="#_test_git_clone_task"></a>Test git-clone Task</h3>
+<div class="paragraph">
+<p>First you will execute the first step of the Pipeline, the <code>git-clone</code> ClusterTask responsible of cloning our private repository.</p>
+</div>
+<div class="paragraph">
+<p>If you analyzed the ClusterTask in the previous section, you noticed that it requires three input parameters and a workspace as output:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>url</strong>: URL of the git repo, use your Gitea ULR: %gitea_url%</p>
+</li>
+<li>
+<p><strong>revision</strong>: branch name, we use <code>main</code></p>
+</li>
+<li>
+<p><strong>deleteExisting</strong>: removes a previous clone if present, <code>true</code> in our case</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>To run a single task create a new <strong>TaskRun</strong> called <code>git-clone-taskrun</code>.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cat &lt;&lt;'EOF' | oc apply -n pipeline-%guid% -f -
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  name: git-clone-taskrun
+spec:
+  params:
+  - name: url
+    value: %gitea_url%
+  - name: revision
+    value: main
+  - name: deleteExisting
+    value: 'true'
+  taskRef:
+    kind: ClusterTask
+    name: git-clone
+  workspaces:
+  - name: output
+    persistentVolumeClaim:
+      claimName: app-source-pvc
+EOF</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Creating the <strong>TaskRun</strong> immediately starts the task run.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In later versions of the Tekton CLI it will be possible to create a TaskRun using the CLI also for ClusterTasks.
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Using the <code>tkn</code> command follow the log (it may take a few seconds for log messages to appear):</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">tkn taskrun logs -f git-clone-taskrun</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">[clone] + CHECKOUT_DIR=/workspace/output/
+[clone] + '[[' true '==' true ]]
+[clone] + cleandir
+[clone] + '[[' -d /workspace/output/ ]]
+[clone] + rm -rf '/workspace/output//*'
+[clone] + rm -rf /workspace/output//.git
+[clone] + rm -rf '/workspace/output//..?*'
+[clone] + test -z
+[clone] + test -z
+[clone] + test -z
+[clone] + /ko-app/git-init -url https://gitea-gitea.apps.cluster-8m5j6.8m5j6.sandbox1117.opentlc.com/wkulhane-redhat.
+com/spring-petclinic -revision main -refspec  -path /workspace/output/ '-sslVerify=true' '-submodules=true' -depth 1
+[clone] {"level":"info","ts":1602704036.4642532,"caller":"git/git.go:136","msg":"Successfully cloned https://gitea-gi
+tea.apps.cluster-8m5j6.8m5j6.sandbox1117.opentlc.com/wkulhane-redhat.com/spring-petclinic @ 27109010a52600eb9bf227d63
+1fac3f81ed6ba15 (grafted, HEAD, origin/main) in path /workspace/output/"}
+[clone] {"level":"info","ts":1602704036.491851,"caller":"git/git.go:177","msg":"Successfully initialized and updated
+submodules in path /workspace/output/"}
+[clone] + cd /workspace/output/
+[clone] + git rev-parse HEAD
+[clone] + tr -d '\n'
+[clone] + RESULT_SHA=27109010a52600eb9bf227d631fac3f81ed6ba15
+[clone] + EXIT_CODE=0
+[clone] + '[' 0 '!=' 0 ]
+[clone] + echo -n 27109010a52600eb9bf227d631fac3f81ed6ba15</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+If you want to run the task again you need to either use a different name for the <strong>TaskRun</strong> object - or delete the previous task run before re-creating it.
+</td>
+</tr>
+</table>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_test_maven_build_task"><a class="anchor" href="#_test_maven_build_task"></a>Test maven build Task</h3>
+<div class="paragraph">
+<p>Now execute the second task of our pipeline which builds the Spring boot app using Maven. You will use the <code>maven</code> cluster task which requires 2 parameters:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>GOALS</strong>: the maven goal, in this case <code>-DskipTests clean package</code> to just build the application without executing any tests.</p>
+</li>
+<li>
+<p><strong>MAVEN_MIRROR_URL</strong>: the URL of an internal Nexus we can use as a Maven mirror for the app dependencies, we are going to use a Nexus Maven Mirror that is already installed on the cluster. The service URL for the Nexus Maven mirror is <a href="http://nexus.nexus.svc:8081/repository/maven-all-public" class="bare">http://nexus.nexus.svc:8081/repository/maven-all-public</a>. Note that because this is the URL of the OpenShift service this URL is not accessible from outside the OpenShift cluster (you really don&#8217;t want to use the Route here - otherwise every request would create additional unneccessary network load).</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+You will still see that some Spring artifacts are being downloaded from the internet rather than from Nexus. This is because the internal service URL for Nexus is an insecure route (<code>http</code>) and the project settings in the source code repo (<code>pom.xml</code>) require a secure connection for Spring dependencies (<code>nohttp</code>).
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a <strong>TaskRun</strong> called <code>maven-build-taskrun</code>:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cat &lt;&lt;'EOF' | oc apply -n pipeline-%guid% -f -
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  name: maven-build-taskrun
+spec:
+  params:
+  - name: GOALS
+    value:
+    - -DskipTests
+    - clean
+    - package
+  - name: MAVEN_MIRROR_URL
+    value: http://nexus.nexus.svc:8081/repository/maven-all-public/
+  taskRef:
+    kind: ClusterTask
+    name: maven
+  workspaces:
+  - name: source
+    persistentVolumeClaim:
+      claimName: app-source-pvc
+  - name: maven-settings
+    emptyDir: {}
+EOF</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Using the <code>tkn</code> command follow the log (it may take a few seconds for log messages to appear):</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">tkn taskrun logs -f maven-build-taskrun</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">...
+[mvn-goals] Downloaded from mirror.default: http://nexus.nexus.svc:8081/repository/maven-all-public/org/apache/maven/maven-compat/3.0/maven-compat-3.0.jar
+ (285 kB at 8.4 MB/s)
+[mvn-goals] Downloaded from mirror.default: http://nexus.nexus.svc:8081/repository/maven-all-public/org/tukaani/xz/1.8/xz-1.8.jar (109 kB at 3.1 MB/s)
+[mvn-goals] [INFO] Building jar: /workspace/source/target/spring-petclinic-2.3.0.BUILD-SNAPSHOT.jar
+[mvn-goals] [INFO]
+[mvn-goals] [INFO] --- spring-boot-maven-plugin:2.3.3.RELEASE:repackage (repackage) @ spring-petclinic ---
+[mvn-goals] [INFO] Replacing main artifact with repackaged archive
+[mvn-goals] [INFO] ------------------------------------------------------------------------
+[mvn-goals] [INFO] BUILD SUCCESS
+[mvn-goals] [INFO] ------------------------------------------------------------------------
+[mvn-goals] [INFO] Total time:  07:10 min
+[mvn-goals] [INFO] Finished at: 2020-10-15T13:36:17Z
+[mvn-goals] [INFO] ------------------------------------------------------------------------</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once this task run is completed successfully, your app is built and ready to tested.</p>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_test_maven_test_task"><a class="anchor" href="#_test_maven_test_task"></a>Test maven test Task</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a <strong>TaskRun</strong> called <code>maven-test-taskrun</code>:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cat &lt;&lt;'EOF' | oc apply -n pipeline-%guid% -f -
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  name: maven-test-taskrun
+spec:
+  params:
+  - name: GOALS
+    value:
+    - test
+  - name: MAVEN_MIRROR_URL
+    value: http://nexus.nexus.svc:8081/repository/maven-all-public/
+  taskRef:
+    kind: ClusterTask
+    name: maven
+  workspaces:
+  - name: source
+    persistentVolumeClaim:
+      claimName: app-source-pvc
+  - name: maven-settings
+    emptyDir: {}
+EOF</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Using the <code>tkn</code> command follow the log (it may take a few seconds for log messages to appear):</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">tkn taskrun logs -f maven-test-taskrun</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">...
+Source       : HikariPool-1 - Shutdown completed.
+[mvn-goals] 2020-10-26 12:31:57.664  INFO 212 --- [extShutdownHook] org.ehcache.core.EhcacheMana
+ger          : Cache 'vets' removed from EhcacheManager.
+[mvn-goals] [INFO]
+[mvn-goals] [INFO] Results:
+[mvn-goals] [INFO]
+[mvn-goals] [WARNING] Tests run: 40, Failures: 0, Errors: 0, Skipped: 1
+[mvn-goals] [INFO]
+[mvn-goals] [INFO] ------------------------------------------------------------------------
+[mvn-goals] [INFO] BUILD SUCCESS
+[mvn-goals] [INFO] ------------------------------------------------------------------------
+[mvn-goals] [INFO] Total time:  01:54 min
+[mvn-goals] [INFO] Finished at: 2020-10-26T12:31:58Z
+[mvn-goals] [INFO] ------------------------------------------------------------------------</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once this task run is completed successfully, your app is built and ready to be packaged into a container and pushed to OpenShift.</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_test_build_image_task"><a class="anchor" href="#_test_build_image_task"></a>Test build-image Task</h3>
+<div class="paragraph">
+<p>Once you app is built and tested, it&#8217;s time to merge it inside a container, and this comes easy using the Source-to-Image (S2I) Task <code>s2i-java-11-binary-namespace</code> we created in previous chapter.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+A Task definition is available by default only in the project where it has been created, while a ClusterTask it&#8217;s available for all projects.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s look at required parameters for this Task:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>TLSVERIFY</strong>: it verifies if the target registry has trusted certs, default to <code>false</code></p>
+</li>
+<li>
+<p><strong>OUTPUT_IMAGE_STREAM</strong>: the name of the ImageStream as representing the container image built in this step, format is <code>name</code>:`tag`</p>
+</li>
+<li>
+<p><strong>NAMESPACE</strong>: target project where to push the result container image</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>At this step, we want to create a container image from latest successful build and push it to the Dev environment, ready to be deployed.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Use <code>tkn</code> cli to create automatically a TaskRun and start our Task:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">tkn task start s2i-java-11-binary-namespace  \
+    -p TLSVERIFY=false  \
+    -p OUTPUT_IMAGE_STREAM=petclinic:latest  \
+    -p NAMESPACE=petclinic-%guid%-dev \
+    -w name=source,claimName=app-source-pvc \
+    --showlog \
+    -n pipeline-%guid%</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">...
+[build] test-classes/org/springframework/samples/petclinic/vet/
+[build] test-classes/org/springframework/samples/petclinic/vet/VetControllerTests.class
+[build] test-classes/org/springframework/samples/petclinic/vet/VetTests.class
+[build] --&gt; 06dcb1ff43b
+[build] STEP 8: CMD /usr/local/s2i/run
+[build] STEP 9: COMMIT image-registry.openshift-image-registry.svc:5000/petclinic-nvin-dev/petcl
+inic:latest
+[build] --&gt; 75d21fa3235
+[build] 75d21fa32350c916b7c9b48d0f1d4c50f471a0ef47f0decbf173cf04c0e0b670
+
+[push] Getting image source signatures
+[push] Copying blob sha256:d5409e07a0c879144c196c38ab9a7a3f59d8630882ad19d2d87e0aaa7af09c7f
+[push] Copying blob sha256:548d9305d034bf3372b997ad14f69bd608eea7112a6200daebf92ed91cb52dfc
+[push] Copying blob sha256:542fb4667c977c3105e17701368e9ce44f4cc331b9b34ec9aabd04d6f93761e8
+[push] Copying blob sha256:c13e1fc2ca26f7749d5a2913f891616b909915f1e900be49c24b17f2faaa6f04
+[push] Copying blob sha256:245644d3cbb3f32769c9667fe3159a0f56d4190d7f74dd3c7518b6c7f4c05050
+[push] Copying blob sha256:14324321c32b5060c4aa3d4c6dc03aa49db935df5bde16deb39ec7ef12b354a0
+[push] Copying config sha256:75d21fa32350c916b7c9b48d0f1d4c50f471a0ef47f0decbf173cf04c0e0b670
+[push] Writing manifest to image destination
+[push] Copying config sha256:75d21fa32350c916b7c9b48d0f1d4c50f471a0ef47f0decbf173cf04c0e0b670
+[push] Writing manifest to image destination
+[push] Storing signatures</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_test_deploy_to_dev_task"><a class="anchor" href="#_test_deploy_to_dev_task"></a>Test deploy-to-dev Task</h3>
+<div class="paragraph">
+<p>Now that the container image is available in our petclinic-%guid%-dev project representing the Dev environment, we are ready to deploy it with the <code>deploy-to-project</code> Task we already created.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s look at required parameters for this Task:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>DEPLOYMENT</strong>: the name of the Deployment to use for our app</p>
+</li>
+<li>
+<p><strong>IMAGE_STREAM</strong>: the name of the ImageStream as representing the container image pushed to the target project</p>
+</li>
+<li>
+<p><strong>NAMESPACE</strong>: target project where to deploy the container image</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s deploy our app to Dev project <code>petclinic-%guid%-dev</code>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Use <code>tkn</code> cli to create automatically a TaskRun and start our Task:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">tkn task start deploy-to-project  \
+    -p DEPLOYMENT=petclinic  \
+    -p IMAGE_STREAM=petclinic:latest  \
+    -p NAMESPACE=petclinic-%guid%-dev \
+    --showlog \
+    -n pipeline-%guid%</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+From this point of the pipeline, the workspace is not needed anymore, since the container image has been already stored in the Container Registry and we can manage it via ImageStreams and Deployments
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">[deploy] + image_ref=image-registry.openshift-image-registry.svc:5000/petclinic-nvin-dev/petclin
+ic:latest
+[deploy] + echo 'Deploying image-registry.openshift-image-registry.svc:5000/petclinic-nvin-dev/p
+etclinic:latest'
+[deploy] Deploying image-registry.openshift-image-registry.svc:5000/petclinic-nvin-dev/petclinic
+:latest
+[deploy] ++ oc get deployment petclinic -n petclinic-nvin-dev
+[deploy] + deployment='NAME        READY   UP-TO-DATE   AVAILABLE   AGE
+[deploy] petclinic   1/1     1            1           12d'
+[deploy] + '[' 0 -ne 0 ']'
+[deploy] + oc set image deployment/petclinic petclinic=image-registry.openshift-image-registry.s
+vc:5000/petclinic-nvin-dev/petclinic:latest -n petclinic-nvin-dev
+[deploy] deployment.apps/petclinic image updated
+[deploy] ++ date +%s
+[deploy] + oc patch deployment petclinic -p '{"spec": {"template": {"metadata": { "labels": {  "
+redeploy": "1603715966"}}}}}' -n petclinic-nvin-dev
+[deploy] deployment.apps/petclinic patched
+[deploy] + oc rollout status deployment/petclinic -n petclinic-nvin-dev
+[deploy] Waiting for deployment spec update to be observed...
+[deploy] Waiting for deployment "petclinic" rollout to finish: 0 out of 1 new replicas have been
+ updated...
+[deploy] Waiting for deployment "petclinic" rollout to finish: 0 out of 1 new replicas have been
+ updated...
+[deploy] Waiting for deployment "petclinic" rollout to finish: 0 out of 1 new replicas have been
+ updated...
+[deploy] Waiting for deployment "petclinic" rollout to finish: 1 old replicas are pending termin
+ation...
+[deploy] Waiting for deployment "petclinic" rollout to finish: 1 old replicas are pending termin
+ation...
+[deploy] deployment "petclinic" successfully rolled out</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_test_promote_to_prod_task"><a class="anchor" href="#_test_promote_to_prod_task"></a>Test promote-to-prod Task</h3>
+<div class="paragraph">
+<p>If we verified that our app is running fine for the Dev environment, we can decide to promote it to the Prod environment, represented by <code>petclinic-%guid%-prod</code> project.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s look at required parameters for this Task:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>DEPLOYMENT</strong>: the name of the Deployment to use for our app</p>
+</li>
+<li>
+<p><strong>IMAGE_STREAM</strong>: the name of the ImageStream as representing the container image pushed to the target project</p>
+</li>
+<li>
+<p><strong>DEV_NAMESPACE</strong>: source project from where to promote the app the container image</p>
+</li>
+<li>
+<p><strong>PROD_NAMESPACE</strong>: target project to promote the app by tagging the container image (<code>oc tag</code>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s promote our app from Dev project <code>petclinic-%guid%-dev</code> to Prod project <code>petclinic-%guid%-prod</code> by tagging the ImageStream from <code>petclinic:latest</code> to <code>petclinic:prod</code>. This will be the image tag used for the Prod environment.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Use <code>tkn</code> cli to create automatically a TaskRun and start our Task:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">tkn task start promote-to-prod  \
+    -p DEPLOYMENT=petclinic  \
+    -p IMAGE_STREAM=petclinic:latest  \
+    -p DEV_NAMESPACE=petclinic-%guid%-dev \
+    -p PROD_NAMESPACE=petclinic-%guid%-prod \
+    --showlog \
+    -n pipeline-%guid%</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">[deploy] + oc tag petclinic-nvin-dev/petclinic:latest petclinic-nvin-dev/petclinic:prod
+[deploy] Tag petclinic-nvin-dev/petclinic:prod set to petclinic-nvin-dev/petclinic@sha256:67ad1c
+50ee57742ecae24d4aadfcf24a84c23a14f1ade6b921282ce289720080.</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_test_deploy_to_prod_task"><a class="anchor" href="#_test_deploy_to_prod_task"></a>Test deploy-to-prod Task</h3>
+<div class="paragraph">
+<p>Finally we are ready for the last step, the deployment of the app for Production!</p>
+</div>
+<div class="paragraph">
+<p>We can reuse the same Task <code>deploy-to-project</code> as before, changing the parameters to deploy the app to <code>petclinic-%guid%-prod</code> project and to use <code>petclinc:prod</code> tag at this time:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Use <code>tkn</code> cli to create automatically a TaskRun and start our Task:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">tkn task start deploy-to-project  \
+    -p DEPLOYMENT=petclinic  \
+    -p IMAGE_STREAM=petclinic:prod  \
+    -p NAMESPACE=petclinic-%guid%-prod \
+    --showlog \
+    -n pipeline-%guid%</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">[deploy] + image_ref=image-registry.openshift-image-registry.svc:5000/petclinic-nvin-prod/petcli
+nic:prod
+[deploy] + echo 'Deploying image-registry.openshift-image-registry.svc:5000/petclinic-nvin-prod/
+petclinic:prod'
+[deploy] Deploying image-registry.openshift-image-registry.svc:5000/petclinic-nvin-prod/petclini
+c:prod
+[deploy] ++ oc get deployment petclinic -n petclinic-nvin-prod
+[deploy] + deployment='NAME        READY   UP-TO-DATE   AVAILABLE   AGE
+[deploy] petclinic   1/1     1            1           12d'
+[deploy] + '[' 0 -ne 0 ']'
+[deploy] + oc set image deployment/petclinic petclinic=image-registry.openshift-image-registry.s
+vc:5000/petclinic-nvin-prod/petclinic:prod -n petclinic-nvin-prod
+[deploy] deployment.apps/petclinic image updated
+[deploy] ++ date +%s
+[deploy] + oc patch deployment petclinic -p '{"spec": {"template": {"metadata": { "labels": {  "
+redeploy": "1603716255"}}}}}' -n petclinic-nvin-prod
+[deploy] deployment.apps/petclinic patched
+[deploy] + oc rollout status deployment/petclinic -n petclinic-nvin-prod
+[deploy] Waiting for deployment spec update to be observed...
+[deploy] Waiting for deployment "petclinic" rollout to finish: 0 out of 1 new replicas have been
+ updated...
+[deploy] Waiting for deployment "petclinic" rollout to finish: 0 out of 1 new replicas have been
+ updated...
+[deploy] Waiting for deployment "petclinic" rollout to finish: 0 out of 1 new replicas have been
+ updated...
+[deploy] Waiting for deployment "petclinic" rollout to finish: 1 old replicas are pending termin
+ation...
+[deploy] Waiting for deployment "petclinic" rollout to finish: 1 old replicas are pending termin
+ation...
+[deploy] deployment "petclinic" successfully rolled out</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In general, if you want to test each task, what you need to do is:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create a TaskRun with YAML or tkn cli</p>
+</li>
+<li>
+<p>Add all required input and output parameters</p>
+</li>
+<li>
+<p>If required ensure the Workspace (PersistentVolumeClaim) is present</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>At this point you are ready to pack all tasks and manage them into a single <code>Pipeline</code>. Pipelines contains a list of Task and ClusterTask, and all pipeline parameters are passed to tasks in the form of <code>$(params.PARAM_NAME)</code>.</p>
+</div>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

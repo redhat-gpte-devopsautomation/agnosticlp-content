@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Untitled :: AgnosticLP Content</title>
+    <meta name="generator" content="Antora 2.2.0">
+    <link rel="stylesheet" href="../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../..">AgnosticLP Content</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Products</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Product A</a>
+            <a class="navbar-item" href="#">Product B</a>
+            <a class="navbar-item" href="#">Product C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Services</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Service A</a>
+            <a class="navbar-item" href="#">Service B</a>
+            <a class="navbar-item" href="#">Service C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Resources</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Resource A</a>
+            <a class="navbar-item" href="#">Resource B</a>
+            <a class="navbar-item" href="#">Resource C</a>
+          </div>
+        </div>
+        <div class="navbar-item">
+          <span class="control">
+            <a class="button is-primary" href="#">Download</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="agnosticlp-content" data-version="1">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="overview.html">Agnosticlp Content</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="#index.adoc">Lab Overview</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="user_information.html">Information about your environment</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="run_jenkins_pipeline.html">Execute Jenkins pipeline</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="create_tekton_pipeline.html">Create OpenShift pipeline</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="test_tekton_tasks.html">Test OpenShift pipeline tasks</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="run_tekton_pipeline.html">Run OpenShift pipeline</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="add_webhook.html">Add Webhook</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Agnosticlp Content</span>
+    <span class="version">1</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="overview.html">Agnosticlp Content</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="overview.html">1</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="overview.html">Agnosticlp Content</a></li>
+    <li><a href="run_tekton_pipeline.html">Run OpenShift pipeline</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<article class="doc">
+<div class="paragraph">
+<p>In previous sections you created and verified the tasks and you created the Pipeline. Now you are ready to execute the pipeline.</p>
+</div>
+<div class="sect1">
+<h2 id="_run_the_pipeline"><a class="anchor" href="#_run_the_pipeline"></a>Run the Pipeline</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can start the converted Pipeline either from the %web_console_url%[Web Console], or from command line.</p>
+</div>
+<div class="paragraph">
+<p>For both methods, you will need to provide input parameters:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>APP_NAME</strong>: name of app deployment, in our case <code>petclinic</code></p>
+</li>
+<li>
+<p><strong>APP_GIT_URL</strong>: git repository URL where to get source code</p>
+</li>
+<li>
+<p><strong>APP_GIT_REVISION</strong>: branch name for git repo</p>
+</li>
+<li>
+<p><strong>APP_IMAGE_STREAM</strong>: the name of the ImageStream with tag for the app</p>
+</li>
+<li>
+<p><strong>DEV_NAMESPACE</strong>: name of target project representing the Dev environment for the app</p>
+</li>
+<li>
+<p><strong>PROD_NAMESPACE</strong>: name of target project representing the Prod environment for the app, where to promote it.</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_run_in_the_web_console"><a class="anchor" href="#_run_in_the_web_console"></a>Run in the Web Console</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>From the Developer Perspective again open <code>petclinic-pipeline</code> Pipeline and click on top-right <strong>Actions</strong> drop down list. Then click on <strong>Start</strong>.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/images/pipeline_action_start.png" alt="Actions Start">
+</div>
+</div>
+</li>
+<li>
+<p>Inside <strong>Workspaces</strong> section, select from <strong>app-source</strong> drop down list <strong>PVC</strong>, then select <strong>app-source-pvc</strong>.</p>
+<div class="paragraph">
+<p>Leave the default of <strong>Empty Directory</strong> for <strong>maven-settings</strong> since you don&#8217;t need to provide any custom Maven setting.</p>
+</div>
+</li>
+<li>
+<p>Click the blue <strong>Start</strong> button to run the Pipeline.</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/images/pipeline_start.png" alt="Start Pipeline">
+</div>
+</div>
+</li>
+<li>
+<p>Follow execution and logs by clicking on active or executed Tasks:</p>
+<div class="imageblock">
+<div class="content">
+<img src="_images/images/pipeline_run.png" alt="Pipeline Running">
+</div>
+</div>
+</li>
+<li>
+<p>You can also follow the logs from the terminal with <code>tkn</code>:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">tkn pipeline logs -f</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_run_using_the_tkn_cli"><a class="anchor" href="#_run_using_the_tkn_cli"></a>Run using the tkn CLI</h3>
+<div class="paragraph">
+<p>You can run the Pipeline directly and watch the logs using the <code>tkn</code> CLI:</p>
+</div>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">tkn pipeline start petclinic-pipeline  \
+    --use-param-defaults  \
+    -w name=app-source,claimName=app-source-pvc \
+    -w name=maven-settings,emptyDir= \
+    --showlog \
+    -n pipeline-%guid%</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In this example you just use the default parameters that the pipeline defined. You could of course specify your own parameters if required.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_access_the_application"><a class="anchor" href="#_access_the_application"></a>Access the Application</h2>
+<div class="sectionbody">
+<div class="imageblock">
+<div class="content">
+<img src="_images/images/pipeline_successful.png" alt="Pipeline Successful">
+</div>
+</div>
+<div class="paragraph">
+<p>If the pipeline was successful, then an image has been pushed into the <code>pipeline-%guid%-dev</code> project and a new deployment has been performed. Then the image has been tagged for <em>prod</em> and deployed to <code>pipeline-%guid%-prod</code>.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Validate that the application is running in the Development project:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pod -n petclinic-%guid%-dev</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">NAME                 READY   STATUS      RESTARTS   AGE
+petclinic-1-c77xt    1/1     Running     0          17m
+petclinic-1-deploy   0/1     Completed   0          17m</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Find the route for the application in your development project:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get route -n petclinic-%guid%-dev</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-texinfo hljs" data-lang="texinfo">NAME        HOST/PORT                                                                        PATH   SERVICES    PORT       TERMINATION   WILDCARD
+petclinic   petclinic-petclinic-%guid%-dev.%CLUSTER_SUBDOMAIN%          petclinic   8080-tcp
+               None</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Use the route (<code>petclinic-petclinic-%guid%-dev.%CLUSTER_SUBDOMAIN%</code> in the example above) in a web browser to validate that the application is working.</p>
+</li>
+<li>
+<p>Also check that the production application is working. First check that the pod is running in your production project (note that you will not see a build pod in this project - you only build the container image in the development project):</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pod -n petclinic-%guid%-prod</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">NAME                 READY   STATUS      RESTARTS   AGE
+petclinic-1-8nrnc    1/1     Running     0          21m
+petclinic-1-deploy   0/1     Completed   0          21m</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Retrieve the route for the production application:</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get route -n petclinic-%guid%-prod</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-texinfo hljs" data-lang="texinfo">NAME        HOST/PORT                                                                         PATH   SERVICES    PORT       TERMINATION   WILDCARD
+petclinic   petclinic-petclinic-%guid%-prod.%CLUSTER_SUBDOMAIN%          petclinic   8080-tcp
+                None</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Then check that the production application is also running.</p>
+</li>
+</ol>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/images/pipeline_app_deployed.png" alt="App deployed">
+</div>
+</div>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

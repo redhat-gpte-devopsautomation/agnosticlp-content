@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Untitled :: AgnosticLP Content</title>
+    <meta name="generator" content="Antora 2.2.0">
+    <link rel="stylesheet" href="../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../..">AgnosticLP Content</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Products</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Product A</a>
+            <a class="navbar-item" href="#">Product B</a>
+            <a class="navbar-item" href="#">Product C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Services</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Service A</a>
+            <a class="navbar-item" href="#">Service B</a>
+            <a class="navbar-item" href="#">Service C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Resources</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Resource A</a>
+            <a class="navbar-item" href="#">Resource B</a>
+            <a class="navbar-item" href="#">Resource C</a>
+          </div>
+        </div>
+        <div class="navbar-item">
+          <span class="control">
+            <a class="button is-primary" href="#">Download</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="agnosticlp-content" data-version="1">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="overview.html">Agnosticlp Content</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="#index.adoc">Lab Overview</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="user_information.html">Information about your environment</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="run_jenkins_pipeline.html">Execute Jenkins pipeline</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="create_tekton_pipeline.html">Create OpenShift pipeline</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="test_tekton_tasks.html">Test OpenShift pipeline tasks</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="run_tekton_pipeline.html">Run OpenShift pipeline</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="add_webhook.html">Add Webhook</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Agnosticlp Content</span>
+    <span class="version">1</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="overview.html">Agnosticlp Content</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="overview.html">1</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="overview.html">Agnosticlp Content</a></li>
+    <li><a href="run_jenkins_pipeline.html">Execute Jenkins pipeline</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<article class="doc">
+<div class="paragraph">
+<p>In this section of the lab you will examine the Jenkins Pipeline and - if you want to - execute the pipeline.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open your web browser and navigate to Jenkins at %jenkins_url%.</p>
+</li>
+<li>
+<p>Click the blue <strong>Login to OpenShift</strong> button to log into Jenkins. &#8230;&#8203; Use <strong>%ocp_username%</strong> and your OpenTLC password as credentials.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Accept the request for permissions</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>On the Jenkins Overview page you will see a folder, <strong>jenkins-%guid%</strong>. Open the folder by clicking on the name.</p>
+</li>
+<li>
+<p>You will see a Jenkins task <strong>jenkins-%guid%/petclinic-pipeline</strong>. Open the task by clicking on it.</p>
+</li>
+<li>
+<p>On the left click on <strong>Configure</strong> to see the task definition.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Notice the 4 parameters that are passed into the pipeline:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>REPO</strong> (your source code repository for the application you are buildling)</p>
+</li>
+<li>
+<p><strong>PROD_PROJECT</strong>: the name of the project that will hold the production code</p>
+</li>
+<li>
+<p><strong>GITSECRET</strong>: the name of the secret in your Jenkins project that holds the credentials for your <em>private</em> source code repository in Gitea</p>
+</li>
+<li>
+<p><strong>DEV_PROJECT</strong>: the name of the development project</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Scroll down further and examine the Jenkins pipeline. Notice the following:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The pipeline specifies an agent with label <strong>maven</strong>. This agent pod will execute the pipeline.</p>
+</li>
+<li>
+<p>Under <strong>stages</strong> you will find all the stages that make up the pipeline. In each stage you will find a sequence of steps that make up this stage.</p>
+</li>
+<li>
+<p>The <em>Build App</em> stage checks out the source code from your private source code repository and uses <code>mvn install -DskipTests=true</code> to build the application jar file.</p>
+</li>
+<li>
+<p>The <em>Test</em> stage runs <code>mvn test</code> and then archives the test results. This makes the test results available on the overview page of your task in Jenkins.</p>
+</li>
+<li>
+<p>Stage <em>Create Builder</em> is a bit more complicated. Let&#8217;s see what&#8217;s going on:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>First the expression checks if the build configuration <strong>petclinic</strong> exists in your development project.</p>
+</li>
+<li>
+<p>If the build configuration does <em>not</em> exists the steps are executed to create a new build configuration of type <strong>binary</strong> with the name <strong>petclinic</strong> using builder image <code>redhat-openjdk18-openshift:1.8</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Stage <em>Build Image</em> renames the jar file that you previously built in stage <em>Build App</em> to the name <code>petclinic.jar</code> - and then starts the binary build to create the container image for the application. Note the <code>--wait=true</code> section: this ensures that this step blocks until the build has finished.</p>
+</li>
+<li>
+<p>Stage <em>Create DeploymentConfig for DEV</em> again is a more complicated stage:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>It once again checks if the deployment configuration already exists in the development project. And if it doesn&#8217;t it creates it using the container image that was just built in the previous step (<code>petclinic:latest</code>).</p>
+</li>
+<li>
+<p><code>expose</code> creates a route from the service that the <code>newApp</code> step created.</p>
+</li>
+<li>
+<p>Then it waits until the application has been rolled out by comparing <code>.spec.replicas</code> with <code>.status.readyReplicas</code> in the deployment configuration object. Note that this logic uses <code>.object()</code> to get the current version of the deployment config object. Otherwise it would just keep comparing the state of the object as it was when the variable <code>dc</code> was created.</p>
+</li>
+<li>
+<p>This stage also sets the triggers in the deployment configuration to <strong>manual</strong> to prevent future automatic deployments and sets a variable to let the next stage (rollout) know that it can be skipped.</p>
+</li>
+<li>
+<p>And finally a variable, <code>devProjectIsNew</code>, is set to signal that the application has just been deployed. This will prevent a double deploy in the next stage.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Stage <em>Deploy Dev</em> checks if the project has just been set up. If so there is no need to run a deploy because the previous state already deployed the latest version of the application. It this is the second or higher time the pipeline is run then the previous stage will have been skipped - and it is necessary to roll out (redeploy) the application using the latest container image.</p>
+</li>
+<li>
+<p>Stage <em>Promote to Prod</em> tags the image with the <code>prod</code> tag.</p>
+</li>
+<li>
+<p>Stage <em>Create DeploymentConfig for PROD</em> is similar to the stage that set up the application for the development project.</p>
+</li>
+<li>
+<p>Stage <em>Deploy PROD</em> finally is similar to the stage that deployed the application into the development project - except this time it deploys into the production project.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Now that you know what the pipeline does it&#8217;s time to run the pipeline.</p>
+<div class="paragraph">
+<p>At the top of your screen in the breadcrumb section select the <strong>jenkins-%guid%/petclinic-pipeline</strong> link to get back to the task overview.</p>
+</div>
+</li>
+<li>
+<p>On the left click <strong>Build with Parameters</strong> to kick off a new build. The parameters are already pre-populated so all you have to do is click on the blue <strong>Build</strong> button to kick off a build. You can follow along as the build progresses until it finishes about 4 minutes later.</p>
+</li>
+</ol>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/images/jenkins_petclinic_pipeline.png" alt="Jenkins Pipeline">
+</div>
+</div>
+<div class="sect2">
+<h3 id="_access_the_application"><a class="anchor" href="#_access_the_application"></a>Access the application</h3>
+<div class="paragraph">
+<p>When you ran the Jenkins pipeline this was the first time that it ran. Therefore it created all the resources that it needed to deploy the application to both the development and production projects. Let&#8217;s check out these applications.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Make sure the application is running in your development project</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pod -n petclinic-jenkins-%guid%-dev</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">NAME                 READY   STATUS      RESTARTS   AGE
+petclinic-1-build    0/1     Completed   0          18m
+petclinic-1-c77xt    1/1     Running     0          17m
+petclinic-1-deploy   0/1     Completed   0          17m</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Find the route for the application in your development</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get route -n petclinic-jenkins-%guid%-dev</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">NAME        HOST/PORT                                                                    PATH   SERVICES    PORT
+ TERMINATION   WILDCARD
+petclinic   petclinic-petclinic-jenkins-%guid%-dev.%CLUSTER_SUBDOMAIN%          petclinic   8080-tcp
+               None</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Use the route (<code>petclinic-petclinic-jenkins-%guid%-dev.%CLUSTER_SUBDOMAIN%</code> in the example above) in a web browser to validate that the application is working.</p>
+</li>
+<li>
+<p>Also check that the production application is working. First check that the pod is running in your production project (note that you will not see a build pod in this project - you only build the container image in the development project):</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pod -n petclinic-jenkins-%guid%-prod</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">NAME                 READY   STATUS      RESTARTS   AGE
+petclinic-1-8nrnc    1/1     Running     0          21m
+petclinic-1-deploy   0/1     Completed   0          21m</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Retrieve the route for the production application.</p>
+<div class="listingblock execute">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get route -n petclinic-jenkins-%guid%-prod</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Sample Output</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-texinfo hljs" data-lang="texinfo">NAME        HOST/PORT                                                                     PATH   SERVICES    PORT
+  TERMINATION   WILDCARD
+petclinic   petclinic-petclinic-jenkins-%guid%-prod.%CLUSTER_SUBDOMAIN%          petclinic   8080-tcp
+                None</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Then check that application as well.</p>
+</li>
+</ol>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/images/pipeline_app_deployed.png" alt="Petclinic deployed">
+</div>
+</div>
+<div class="paragraph">
+<p>Now that you have validated that everything is working as designed you are ready to convert the Jenkins pipeline into an OpenShift pipeline.</p>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
